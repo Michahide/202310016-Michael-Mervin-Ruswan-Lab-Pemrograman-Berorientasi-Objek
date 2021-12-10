@@ -15,9 +15,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
 
 
 public class Login extends JFrame {
@@ -62,7 +59,6 @@ public class Login extends JFrame {
             LabelUsername.setBounds(29, 38, 72, 14); // set ukuran window dengan format (x, y, width, height). Dimana x dan y mengatur tata letak posisi window ketika pertama kali dijalankan
             panel.add(LabelUsername); //menambahkan labelUsername ke bagian panel
         textUsername = new JTextField(); //initialisasi object textUsername pada class Login sebagai bagian dari JTextField
-		    textUsername.setDocument(new textLimit(10)); // set untuk membatasi panjang input
             textUsername.setBounds(29, 63, 363, 36); // set ukuran window dengan format (x, y, width, height). Dimana x dan y mengatur tata letak posisi window ketika pertama kali dijalankan
             panel.add(textUsername); //menambahkan textUsername ke bagian panel
             textUsername.setColumns(10); //mengatur jumlah kolom pada textUsername
@@ -93,6 +89,8 @@ public class Login extends JFrame {
                     JOptionPane.showMessageDialog(null, "Mohon masukan username dan password anda.");
                 } else if (isNumber(username) == false) { // kondisi jika username bukan angka
                     JOptionPane.showMessageDialog(null, "Harap masukan angka.");
+                } else if (username.length() > 10){
+                    JOptionPane.showMessageDialog(null, "Maximum inputan 10 digit."); // kondisi jika input username lebih dari 10 digit
                 } else if (username.equalsIgnoreCase("202310016") && password.equalsIgnoreCase("27062002")) { // kondisi jika username dan password benar
                     JOptionPane.showMessageDialog(btnSignIn, "Selamat datang di aplikasi Perpustakaan IBIK.");
                 } else { // kondisi jika username dan password tidak sesuai
@@ -114,37 +112,5 @@ public class Login extends JFrame {
         }
     }
 
-    class textLimit extends PlainDocument {
-	
-        private int limit;
-        
-        // method mengatur limit
-        textLimit(int limit) {
-            super();
-            this.limit = limit;
-        }
-    
-        // method untuk mengecek panjang limit
-        textLimit(int limit, boolean upper) {
-            super();
-            this.limit = limit;
-        }
-    
-        // method untuk mengecek panjang dan menampilkan pesan error 
-        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
-    
-            // jika bernilai null
-            if (str == null)
-                return;
-            
-            // jika panjang kurang dari limit
-            if ((getLength() + str.length()) <= limit) {
-                super.insertString(offset, str, attr);
-            } else {
-                JOptionPane.showMessageDialog(null, "Maximum inputan 10 digit"); // jika panjang lebih panjang dari 10 digit
-            }
-          
-        }
-    
-    }
+
 }
